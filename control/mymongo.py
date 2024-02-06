@@ -1,15 +1,22 @@
 from pymongo import MongoClient
 
+
 class MongoMoudle:
     def __init__(self):
-        self.client = MongoClient()
-        self.db = self.client['fanxie']
-        self.table = self.db['feed_record']
-    def inser(self,data):
-        self.table.insert_one(data)
+        self.client = MongoClient('mongodb://localhost:27017/')
+        self.db = self.client['yys']
 
-    def search(self,data):
-        self.table.find_one(data)
+    def insert(self, table, data):
+        self.db[table].insert_one(data)
+        return {"code": 0, "msg": "ok"}
 
-    def update(self,data):
-        self.table.update_one(data)
+    def search(self, table, select, inneed_data=None):
+        return {"code": 0, "msg": self.db[table].find_one(select,inneed_data)}
+
+    def update(self, table, select, data):
+        self.db[table].update_one(select, data)
+        return {"code": 0, "msg": "ok"}
+
+
+if __name__ == '__main__':
+    print(MongoMoudle().search('feed_time', {"phone": "18576265815"},{"last_time":1,"_id":0}))

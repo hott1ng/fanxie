@@ -6,6 +6,7 @@ class DownloadPage(BasePage):
     click_to_start_button_template = Template(r'../static/app/登录界面/进入游戏.png')
     # change_player_button_template = Template()
     desktop_icon = Template(r'../static/desktop/桌面图标.png')
+    age_icon = Template(r'../static/app/登录界面/用于判断登录界面.png')
 
     def download(self):
         self.base_start()
@@ -15,10 +16,12 @@ class DownloadPage(BasePage):
             sleep(3)
             touch((100, 100))
             try:
-                enter_pos = wait(self.click_to_start_button_template)
-                sleep(3)
-                touch(enter_pos)
-                break
+                if wait(self.age_icon):
+                    sleep(7)
+                    touch(self.click_to_start_button_template)
+                    break
+                else:
+                    fail_times += 1
             except TargetNotFoundError:
                 fail_times += 1
 
@@ -32,7 +35,7 @@ class DownloadPage(BasePage):
         touch(self.change_player_button_template)
 
     def main(self):
-        self.start_app()
+        self.download()
 
 
 if __name__ == '__main__':
