@@ -69,10 +69,11 @@ class SnakePage(FightPage):
 
 
     def yeyuanhuo_run(self):
-        self.replace_yuhun()
+        # self.replace_yuhun()
 
         self.enter_yeyuanhuo()
 
         while True:
-
+            self.fight_yeyuanhuo()
+            self.monitor_win()
 
