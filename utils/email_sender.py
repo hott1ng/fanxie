@@ -6,22 +6,26 @@ from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
 
-def sender(event, pic_path):
+def sender(event, pic_path=None,text=None):
     sender = '963454524@qq.com'
     receivers = '963454524@qq.com'
     message = MIMEMultipart('related')
     message['Subject'] = event
     message['From'] = formataddr(("帆蝎", sender))
     message['To'] = receivers
-    content = MIMEText('<html><body><img src="cid:imageid" alt="imageid"></body></html>', 'html', 'utf-8')
-    message.attach(content)
+    if pic_path:
+        content = MIMEText('<html><body><img src="cid:imageid" alt="imageid"></body></html>', 'html', 'utf-8')
+        message.attach(content)
 
-    with open(pic_path, "rb") as f:
-        img_data = f.read()
+        with open(pic_path, "rb") as f:
+            img_data = f.read()
 
-    img = MIMEImage(img_data)
-    img.add_header('Content-ID', 'imageid')
-    message.attach(img)
+        img = MIMEImage(img_data)
+        img.add_header('Content-ID', 'imageid')
+        message.attach(img)
+    else:
+        content = MIMEText(text, 'plain', 'utf-8')
+        message.attach(content)
 
     try:
         server = smtplib.SMTP_SSL("smtp.qq.com", 465)
@@ -34,4 +38,4 @@ def sender(event, pic_path):
 
 
 if __name__ == '__main__':
-    sender('寄养', r'../log/screenshot/1.png')
+    sender('寄养', r'log/screenshot/1.png')

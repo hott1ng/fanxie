@@ -8,26 +8,26 @@ from keywords.download_page import DownloadPage
 
 
 class FeedPage(BasePage):
-    yinyangliao_button_template = Template(r'../static/app/庭院/阴阳寮.png')
-    jiejie_button_template = Template(r'../static/app/庭院/结界.png')
-    shishenyucheng_button_template = Template(r'../static/app/结界图标/式神育成.png')
+    yinyangliao_button_template = Template(r'static/app/庭院/阴阳寮.png')
+    jiejie_button_template = Template(r'static/app/庭院/结界.png')
+    shishenyucheng_button_template = Template(r'static/app/结界图标/式神育成.png')
 
-    six_taigu_template = Template(r'../static/app/结界图标/六星太鼓.png')
-    five_taigu_template = Template(r'../static/app/结界图标/五星太鼓.png')
-    six_douyu_template = Template(r'../static/app/结界图标/六星斗鱼.png')
+    six_taigu_template = Template(r'static/app/结界图标/六星太鼓.png')
+    five_taigu_template = Template(r'static/app/结界图标/五星太鼓.png')
+    six_douyu_template = Template(r'static/app/结界图标/六星斗鱼.png')
     # five_douyu_template = Template()
 
-    friend_button_template = Template(r'../static/app/结界图标/好友.png')
-    kuaqu_button_template = Template(r'../static/app/结界图标/跨区.png')
+    friend_button_template = Template(r'static/app/结界图标/好友.png')
+    kuaqu_button_template = Template(r'static/app/结界图标/跨区.png')
 
-    enter_jiejie_button_template = Template(r'../static/app/结界图标/进入结界.png')
-    feed_button_template = Template(r'../static/app/结界图标/去寄养.png')
+    enter_jiejie_button_template = Template(r'static/app/结界图标/进入结界.png')
+    feed_button_template = Template(r'static/app/结界图标/去寄养.png')
 
-    feed_boy_template = Template(r'../static/app/结界图标/寄养专用.png')
+    feed_boy_template = Template(r'static/app/结界图标/寄养专用.png')
 
-    ok_button_template = Template(r'../static/app/结界图标/确定.png')
+    ok_button_template = Template(r'static/app/结界图标/确定.png')
 
-    juanzhou_template = Template(r'../static/app/庭院/庭院卷轴.png')
+    juanzhou_template = Template(r'static/app/庭院/庭院卷轴.png')
 
     def __int__(self):
         self.mongo = MongoMoudle()
@@ -74,13 +74,18 @@ class FeedPage(BasePage):
 
         result = sorted(result, key=lambda x: x['priority'])
         print(result)
+
+        if result[0]['version'] == 1:
+            touch(self.kuaqu_button_template)
+            sleep(2)
         touch(result[0]['result'])
+
         print('点击', result[0]['result'])
         touch(self.enter_jiejie_button_template)
 
-        sleep(2)
-        # 点击加号
-        touch(self.feed_button_template)
+        # sleep(2)
+        # # 点击加号
+        # touch(self.feed_button_template)
 
         sleep(2)
         # 选择寄养专属
@@ -111,8 +116,8 @@ class FeedPage(BasePage):
 
     def shootandsend(self):
         date = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
-        snapshot(filename=('..\\log\\screenshot\\寄养结果' + str(date) + '.png'))
-        sender('寄养', ('..\\log\\screenshot\\寄养结果' + str(date) + '.png'))
+        snapshot(filename=('log\\screenshot\\寄养结果' + str(date) + '.png'))
+        sender('寄养', ('log\\screenshot\\寄养结果' + str(date) + '.png'))
 
     def back(self):
         pass
@@ -125,12 +130,15 @@ class FeedPage(BasePage):
 
         sleep(15)
 
+        sleep(3)
         # 从庭院出发
         touch(self.juanzhou_template)
 
+        sleep(3)
         # 点击阴阳寮
         touch(self.yinyangliao_button_template)
 
+        sleep(3)
         # 点击结界
         touch(self.jiejie_button_template)
         print("成功进入结界")
