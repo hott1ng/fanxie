@@ -95,6 +95,7 @@ class FeedPage(BasePage):
         # 点击确定
 
         touch(self.ok_button_template)
+        sleep(2)
         self.shootandsend()
 
 
@@ -125,7 +126,6 @@ class FeedPage(BasePage):
     def main(self):
         # 启动
 
-        self.base_start()
         DownloadPage().main()
 
         sleep(15)

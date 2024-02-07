@@ -20,9 +20,9 @@ def task1():
             else:
                 # print("未到寄养时间，还剩", last_time - (now - timedelta(hours=6)))
                 time.sleep(60)
-        except:
+        except Exception as e:
             snapshot(filename='log\\unknown\\error.png')
-            sender('未知错误', pic_path='log\\unknown\\error.png', text='遇到未知错误，请人工介入')
+            sender('未知错误', pic_path='log\\unknown\\error.png', text=f'{e}遇到未知错误，请人工介入')
 
 
 if __name__ == '__main__':

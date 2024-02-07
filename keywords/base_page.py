@@ -11,6 +11,9 @@ class BasePage(object):
         os.system('adb connect 127.0.0.1:7555')
         # airtest连接设备
         connect_device("Android:///")
+        # 开启前先关闭
+        shell('am force-stop com.netease.onmyoji.wyzymnqsd_cps')
+
         shell('am start com.netease.onmyoji.wyzymnqsd_cps/com.netease.onmyoji.tag0')
 
     def base_stop(self):
@@ -19,6 +22,11 @@ class BasePage(object):
         # airtest连接设备
         connect_device("Android:///")
         shell('am force-stop com.netease.onmyoji.wyzymnqsd_cps')
+
+    def base_conncet(self):
+        os.system('adb connect 127.0.0.1:7555')
+        # airtest连接设备
+        connect_device("Android:///")
 
     def base_insert(self, table, data):
         return MongoMoudle().insert(table, data)
