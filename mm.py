@@ -1,4 +1,5 @@
-from keywords.download_page import  DownloadPage
-aa = DownloadPage()
+from keywords.crossfight_page import CrossFightPage
+
+aa = CrossFightPage()
 aa.base_conncet()
 aa.test()

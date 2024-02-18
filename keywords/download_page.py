@@ -18,6 +18,7 @@ class DownloadPage(BasePage):
     def download(self):
         self.base_start()
         print(os.getcwd())
+        sleep(15)
         for i in range(3):
             sleep(3)
             touch((100, 100))

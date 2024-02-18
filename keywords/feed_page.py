@@ -9,7 +9,7 @@ from keywords.download_page import DownloadPage
 
 class FeedPage(BasePage):
     yinyangliao_button_template = Template(r'static/app/庭院/阴阳寮.png')
-    jiejie_button_template = Template(r'static/app/庭院/结界.png')
+    jiejie_button_template = Template(r'static/app/阴阳寮/结界.png')
     shishenyucheng_button_template = Template(r'static/app/结界图标/式神育成.png')
 
     six_taigu_template = Template(r'static/app/结界图标/六星太鼓.png')
@@ -58,8 +58,11 @@ class FeedPage(BasePage):
         sleep(2)
         try:
             for i in range(4):
-                kuaqu_result = [dict(j, version=1, priority=i) for j in find_all(priority_pool[i])]
-                result.extend(kuaqu_result)
+                try:
+                    kuaqu_result = [dict(j, version=1, priority=i) for j in find_all(priority_pool[i])]
+                    result.extend(kuaqu_result)
+                except:
+                    pass
         except:
             print('跨区无坑位')
         touch(self.friend_button_template)
@@ -67,8 +70,12 @@ class FeedPage(BasePage):
         try:
 
             for i in range(4):
-                benfu_result = [dict(j, version=0, priority=i) for j in find_all(priority_pool[i])]
-                result.extend(benfu_result)
+                try:
+
+                    benfu_result = [dict(j, version=0, priority=i) for j in find_all(priority_pool[i])]
+                    result.extend(benfu_result)
+                except:
+                    pass
         except:
             print('本服无坑位')
 
