@@ -15,6 +15,7 @@ class BasePage(object):
         shell('am force-stop com.netease.onmyoji.wyzymnqsd_cps')
 
         shell('am start com.netease.onmyoji.wyzymnqsd_cps/com.netease.onmyoji.tag0')
+        # shell('am start com.netease.onmyoji.wyzymnqsd_cps/com.netease.onmyoji.tag0')
 
     def base_stop(self):
         # adb连接设备

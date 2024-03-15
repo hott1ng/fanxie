@@ -5,6 +5,7 @@ import time
 import os
 from utils.email_sender import sender
 from airtest.core.api import *
+from utils.sender import wechat_send
 
 
 def task1():
@@ -22,7 +23,7 @@ def task1():
                 time.sleep(60)
         except Exception as e:
             snapshot(filename='log\\unknown\\error.png')
-            sender('未知错误', pic_path='log\\unknown\\error.png', text=f'{e}\n遇到未知错误，请人工介入')
+            wechat_send('log\\unknown\\error.png','遇到未知错误，请人工介入')
 
 
 if __name__ == '__main__':

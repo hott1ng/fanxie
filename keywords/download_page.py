@@ -56,8 +56,13 @@ class DownloadPage(BasePage):
             sleep(180)
             print("需要更新")
 
+    def exchange_user(self, user):
+
+        pass
+
     def main(self):
         self.download()
+
 
     def test(self):
         for i in range(10):

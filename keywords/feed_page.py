@@ -5,6 +5,7 @@ from datetime import datetime
 from utils.email_sender import sender
 from download_page import DownloadPage
 from keywords.download_page import DownloadPage
+from utils.sender import wechat_send
 
 
 class FeedPage(BasePage):
@@ -55,6 +56,13 @@ class FeedPage(BasePage):
         result = []
         # 查询坑位
         touch(self.kuaqu_button_template)
+        sleep(2)
+        touch(self.friend_button_template)
+        sleep(2)
+
+        touch(self.kuaqu_button_template)
+
+
         sleep(2)
         try:
             for i in range(4):
@@ -125,7 +133,8 @@ class FeedPage(BasePage):
     def shootandsend(self):
         date = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
         snapshot(filename=('log\\screenshot\\寄养结果' + str(date) + '.png'))
-        sender('寄养', ('log\\screenshot\\寄养结果' + str(date) + '.png'))
+        wechat_send(('log\\screenshot\\寄养结果' + str(date) + '.png'),'寄养成功')
+        # sender('寄养', ('log\\screenshot\\寄养结果' + str(date) + '.png'))
 
     def back(self):
         pass
@@ -139,7 +148,16 @@ class FeedPage(BasePage):
 
         sleep(3)
         # 从庭院出发
-        touch(self.juanzhou_template)
+        try:
+            touch(self.juanzhou_template)
+
+        except:
+            # 获取屏幕分辨率
+            width, height = device().get_current_resolution()
+
+        # 点击屏幕右下角
+            touch((width - 50, height - 50))
+
 
         sleep(3)
         # 点击阴阳寮
