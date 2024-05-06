@@ -4,7 +4,7 @@ import hashlib
 
 
 def wechat_send(path,text):
-    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=6f50d05c-fde2-4539-941d-8288546dca5c"
+    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=a8145c62-e234-403c-8517-42f5021b7378"
     with open(path, 'rb') as f:
     # with open(r'D:\project202402\fanxie\log\screenshot\寄养结果2024_03_14_10_01_47.png', 'rb') as f:
         img = f.read()
@@ -34,9 +34,8 @@ def wechat_send(path,text):
 }
 
     if '请' in text:
-        data['text']['content']['mentioned_list'] = ['yufeifan']
+        data['text']['mentioned_list'] = ['yufeifan']
 
 
     response = requests.post(url, json=data)
 
-# wechat_send('','成功')

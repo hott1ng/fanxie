@@ -16,13 +16,17 @@ def task1():
             now = datetime.now()
             last_time = feed.base_search('feed_time', {'phone': '18576265815'})['msg']['last_time']
             if (now - timedelta(hours=6)) > last_time:
-                print("寄养时间到，开始蹲坑")
-                feed.main()
+                if now.weekday() == 2 and 6 <= now.hour < 9:
+                    time.sleep(60)
+                else:
+                    print("寄养时间到，开始蹲坑")
+                    feed.main()
             else:
                 # print("未到寄养时间，还剩", last_time - (now - timedelta(hours=6)))
                 time.sleep(60)
         except Exception as e:
             snapshot(filename='log\\unknown\\error.png')
+            time.sleep(1)
             wechat_send('log\\unknown\\error.png','遇到未知错误，请人工介入')
 
 
