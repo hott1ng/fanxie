@@ -15,7 +15,20 @@ class DownloadPage(BasePage):
     # 随便放一张
     update_button = Template('static/app/庭院/庭院卷轴.png')
 
-    def download(self):
+    user_center_button = Template('static/app/登录界面/用户中心.png')
+    exchange_user_button = Template('static/app/登录界面/切换账号.png')
+    checkbox_button = Template('static/app/登录界面/下拉框.png')
+    download_button = Template('static/app/登录界面/登录按钮.png')
+    ios_button = Template('static/app/登录界面/ios平台.png')
+    android_button = Template('static/app/登录界面/安卓平台.png')
+    exchange_server_button = Template('static/app/登录界面/换区按钮.png')
+
+    # 角色位置预留
+
+    # 服务器位置预留
+
+
+    def download(self,user,platform):
         self.base_start()
         print(os.getcwd())
         sleep(15)
@@ -29,7 +42,10 @@ class DownloadPage(BasePage):
 
             try:
                 if wait(self.age_icon):
+                    print("进入登录界面成功")
                     sleep(7)
+                    self.change_player(user,platform)
+                    sleep(2)
                     touch(self.click_to_start_button_template)
                     print("进入游戏成功")
                     break
@@ -47,8 +63,42 @@ class DownloadPage(BasePage):
             if exists(self.juanzhou_button_template):
                 print("成功进入庭院")
 
-    def change_player(self):
-        touch(self.change_player_button_template)
+    def change_player(self, user, platform):
+        # 点击用户中心
+        touch(self.user_center_button)
+        sleep(2)
+        # 点击切换账号
+        if exists(self.exchange_user_button):
+            touch(self.exchange_user_button)
+        sleep(2)
+        # 点击下拉框
+        touch((961, 507))
+        sleep(2)
+        # 选择账号预留
+        path = f'static/user/{user}.png'
+        touch(Template(path))
+        sleep(2)
+
+        # 点击登录
+        touch(self.download_button)
+
+        # 选择账号相应平台
+        if platform =="ios":
+            touch(self.ios_button)
+        else:
+            touch(self.android_button)
+        sleep(2)
+
+        # 选择账号相应区服
+        touch(self.exchange_server_button)
+        sleep(2)
+
+        # touch((1126, 788))
+        touch((464, 883))
+        sleep(2)
+
+        touch((459, 769))
+        sleep(2)
 
     def update_app(self):
         if exists(self.update_button):
@@ -60,23 +110,24 @@ class DownloadPage(BasePage):
 
         pass
 
-    def main(self):
-        self.download()
+    def main(self,user,platform):
+        self.download(user,platform)
 
 
     def test(self):
-        for i in range(10):
-            if exists(self.advertisement_close_button):
-                print("找到广告")
-                touch(self.advertisement_close_button)
-            else:
-                print("没找到，跳出")
-                break
-        # 成功进入庭院
-        if exists(self.juanzhou_button_template):
-            print("成功进入庭院")
-        else:
-            print("进入庭院失败")
+        # for i in range(10):
+        #     if exists(self.advertisement_close_button):
+        #         print("找到广告")
+        #         touch(self.advertisement_close_button)
+        #     else:
+        #         print("没找到，跳出")
+        #         break
+        # # 成功进入庭院
+        # if exists(self.juanzhou_button_template):
+        #     print("成功进入庭院")
+        # else:
+        #     print("进入庭院失败")
+        self.change_player("18576265815","ios")
 
 if __name__ == '__main__':
     import os

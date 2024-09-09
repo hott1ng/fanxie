@@ -13,17 +13,21 @@ def task1():
     feed = feed_page.FeedPage()
     while True:
         try:
-            now = datetime.now()
-            last_time = feed.base_search('feed_time', {'phone': '18576265815'})['msg']['last_time']
-            if (now - timedelta(hours=6)) > last_time:
-                if now.weekday() == 2 and 6 <= now.hour < 9:
-                    time.sleep(60)
-                else:
-                    print("寄养时间到，开始蹲坑")
-                    feed.main()
-            else:
-                # print("未到寄养时间，还剩", last_time - (now - timedelta(hours=6)))
-                time.sleep(60)
+            for i in ['18576265815',"haoge"]:
+                now = datetime.now()
+                data = feed.base_search('feed_time', {'phone': i})['msg']
+                last_time = data['last_time']
+                platform = data['platform']
+                if (now - timedelta(hours=6)) > last_time:
+                    if now.weekday() == 2 and 6 <= now.hour < 9:
+                        time.sleep(60)
+                    else:
+
+                        print("寄养时间到，开始蹲坑")
+                        feed.main(i, platform)
+                # else:
+                    # print("未到寄养时间，还剩", last_time - (now - timedelta(hours=6)))
+            time.sleep(60)
         except Exception as e:
             snapshot(filename='log\\unknown\\error.png')
             time.sleep(1)

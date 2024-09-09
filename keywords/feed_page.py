@@ -24,11 +24,15 @@ class FeedPage(BasePage):
     enter_jiejie_button_template = Template(r'static/app/结界图标/进入结界.png')
     feed_button_template = Template(r'static/app/结界图标/去寄养.png')
 
-    feed_boy_template = Template(r'static/app/结界图标/寄养专用.png')
+    feed_boy_template = Template(r'static/app/结界图标/白蛋.png')
 
     ok_button_template = Template(r'static/app/结界图标/确定.png')
 
     juanzhou_template = Template(r'static/app/庭院/庭院卷轴.png')
+
+    cancel_template = Template(r'static/app/庭院/取消.png')
+
+    close_template = Template(r'static/app/庭院/关闭.png')
 
     def __int__(self):
         self.mongo = MongoMoudle()
@@ -40,7 +44,7 @@ class FeedPage(BasePage):
     #
     #     touch(self.jiejie_button_template)
 
-    def feed(self):
+    def feed(self, user):
         priority_pool = {
             0: self.six_taigu_template,
             1: self.five_taigu_template,
@@ -61,7 +65,6 @@ class FeedPage(BasePage):
         sleep(2)
 
         touch(self.kuaqu_button_template)
-
 
         sleep(2)
         try:
@@ -86,6 +89,13 @@ class FeedPage(BasePage):
                     pass
         except:
             print('本服无坑位')
+
+        if result == []:
+            # 跳过本轮寄养
+            # 更新寄养时间
+            self.commit(user)
+            self.shootandsend()
+            return
 
         result = sorted(result, key=lambda x: x['priority'])
         print(result)
@@ -113,9 +123,8 @@ class FeedPage(BasePage):
         sleep(2)
         self.shootandsend()
 
-
         # 更新寄养时间
-        self.commit()
+        self.commit(user)
 
         # self.back()
 
@@ -129,24 +138,32 @@ class FeedPage(BasePage):
         else:
             self.base_insert('feed_time', {'phone': username, 'last_time': date})
 
-
     def shootandsend(self):
         date = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
         snapshot(filename=('log\\screenshot\\寄养结果' + str(date) + '.png'))
-        wechat_send(('log\\screenshot\\寄养结果' + str(date) + '.png'),'寄养成功')
+        wechat_send(('log\\screenshot\\寄养结果' + str(date) + '.png'), '寄养成功')
         # sender('寄养', ('log\\screenshot\\寄养结果' + str(date) + '.png'))
 
     def back(self):
         pass
 
-    def main(self):
+    def main(self, user, platform):
         # 启动
 
-        DownloadPage().main()
+        DownloadPage().main(user, platform)
 
         sleep(15)
 
         sleep(3)
+
+        try:
+            if exists(self.cancel_template):
+                touch(self.cancel_template)
+            elif exists(self.close_template):
+                touch(self.close_template)
+        except:
+            pass
+
         # 从庭院出发
         try:
             touch(self.juanzhou_template)
@@ -155,9 +172,14 @@ class FeedPage(BasePage):
             # 获取屏幕分辨率
             width, height = device().get_current_resolution()
 
-        # 点击屏幕右下角
+            # 点击屏幕右下角
             touch((width - 50, height - 50))
+            # touch(self.cancel_template)
 
+            # 点击屏幕右上角
+            # touch((width - 50, 50))
+
+        # finally:
 
         sleep(3)
         # 点击阴阳寮
@@ -169,7 +191,7 @@ class FeedPage(BasePage):
         print("成功进入结界")
 
         # 寄养流程
-        self.feed()
+        self.feed(user)
 
         # 退出应用
         sleep(3)
